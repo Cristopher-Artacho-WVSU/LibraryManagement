@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a Book!</title>
+
+ 
+</head>
+<body>
+    <h1>Add Book</h1>
+    <form id="addBookForm">
+        <label for="name">ID:</label>
+        <input type="text" id="_id" name="_id"><br><br>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author"><br><br>
+
+        <label for="date">Date:</label>
+        <input type="text" id="date" name="date"><br><br>
+
+        <label for="genre">Genre:</label>
+        <input type="text" id="genre" name="genre"><br><br>\
+
+        <div id="dropzone">Drag and drop images here</div>
+    <input type="file" id="fileInput" name="image" accept="image/*" multiple>
+
+
+        <button type="submit">Add Book</button>
+
+
+
+    <script>
+        document.getElementById('addBookForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+
+            //TAKES IN ALL THESE ARGUMENTS
+            const _id = document.getElementById('_id').value;
+            const name = document.getElementById('name').value;
+            const author = document.getElementById('author').value;
+            const date = document.getElementById('date').value;
+            const genre = document.getElementById('genre').value.split(',').map(item => item.trim());
+
+            //CREATES THE JSON FILE
+            const book = {_id, name, author, date, genre };
+
+            
+            fetch('/books', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+                body: JSON.stringify(book)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add book. Server returned ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Book added successfully:', data);
+                alert('Book added successfully!');
+                window.location.href = '/'; // Redirect to home page after adding car
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to add book. Please try again.');
+            });
+        })
+
+    </script>
+</body>
+</html>

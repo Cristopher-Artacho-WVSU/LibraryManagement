@@ -1,0 +1,111 @@
+[{
+  "_id": {
+    "$oid": "65fb7cb38797a239b19e3cf4"
+  },
+  "name": "I Was Told There'd Be Cake: Essays",
+  "date": "2008",
+  "author": "Sloane Crosley",
+  "genre": [
+    "Humor",
+    "Non-fiction",
+    "Essays"
+  ]
+},
+{
+  "_id": {
+    "$oid": "65fd4ba3d1b423cb5910e034"
+  },
+  "name": "Don Quixote",
+  "date": "1605",
+  "author": "Miguel de Cervantes",
+  "genre": [
+    "Novel, Satire, Farce, Psychological Fiction"
+  ]
+},
+{
+  "_id": "65fb7c208797a239b19e3cf2",
+  "name": "Do Androids Dream of Electric Sheep",
+  "date": "1968",
+  "author": "Philip K. Dick",
+  "genre": [
+    "Science fiction",
+    "Cyberpunk",
+    "Dystopian Fiction",
+    "Noir fiction",
+    "Philosophical fiction"
+  ]
+},
+{
+  "_id": {
+    "$oid": "65fd633ca0f1cedcd01aa360"
+  },
+  "name": "Frankenstein",
+  "author": "Mary Shelley",
+  "date": "1818",
+  "genre": [
+    "Gothic fiction",
+    "Science fiction",
+    "Horror fiction"
+  ]
+},
+{
+  "_id": {
+    "$oid": "65fe5952c4306832e7305236"
+  },
+  "name": "Sample",
+  "author": "Cristopher A.",
+  "date": "1890",
+  "genre": [
+    "Sample File"
+  ]
+},
+{
+  "_id": {
+    "$oid": "65fe59f8548e39380a574b1b"
+  },
+  "name": "Sample",
+  "author": "Mary Shelley",
+  "date": "6969",
+  "genre": [
+    "Gothic fiction",
+    "Science fiction",
+    "Horror fiction"
+  ]
+},
+{
+  "_id": {
+    "$oid": "65fe5a322158ed1038ad5b23"
+  },
+  "name": "Sample",
+  "author": "Mary Shelley",
+  "date": "6969",
+  "genre": [
+    "Gothic fiction",
+    "Science fiction",
+    "Horror fiction"
+  ]
+},
+{
+  "_id": {
+    "$oid": "65fe5bd86bf7799dd9016b1d"
+  },
+  "name": "Sample",
+  "author": "Cristopher A.",
+  "date": "6969",
+  "genre": [
+    "Gothic fiction",
+    "Science fiction",
+    "Horror fiction"
+  ]
+},
+{
+  "_id": {
+    "$oid": "66207a364b5067a020d22ee7"
+  },
+  "name": "Sample",
+  "author": "Cristopher A.",
+  "date": "1999",
+  "genre": [
+    "Sample File"
+  ]
+}]
