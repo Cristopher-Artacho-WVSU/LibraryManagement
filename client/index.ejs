@@ -3,39 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management</title>
+    <title>Library Management System</title>
     <link rel="stylesheet" href="/index_style.css">
+    <style>
+       
+    </style>
 </head>
 <body>
-    <input type="text" id="searchInput" placeholder="Search for books">
-    <button id="search_button" onclick="searchbar()">Search</button>
-    <div id="searchResults"></div>
+    <!-- VABAR. SHOULD CONTAIN LOGIN AND SIGN UP -->
+   <div id="navbar">
+    <a id="toggle-login" onclick="toggleLogin()">Log In</a>
+    <a id="toggle-signup" onclick="toggleSignUp()">Sign Up</a>
+    
+    <!-- DIV THAT APPEARS WHEN LOGIN IS CLICKED -->
+    <div id="login_toggle">
+        <ul>
+            <li><a href="/library-management-system/signup-user">User</a></li>
+            <li><a href="/library-management-system/signup-librarian">Librarian</a></li>
+        </ul>
+    </div>    
 
-    <a href="add_book">Add Book</a>
-    <script>
-    function searchbar() {
-            const searchInput = document.getElementById('searchInput').value;
-            fetch(`/search?query=${searchInput}`)
-                .then(response => response.json())
-                .then(data => {
-                    displaySearchResults(data);
-                })
-                .catch(error => console.error('Error:', error));
-        }
+    <!-- DIV THAT APPEARS WHEN SIGNUP IS CLICKED -->
+    <div id="signup_toggle">
+        <ul>
+            <li><a href="/library-management-system/login-user">User</a></li>
+            <li><a href="/library-management-system/loginlibrarian">Librarian</a></li>
+        </ul>
+    </div>
+   </div>
 
-        function displaySearchResults(results) {
-            const searchResults = document.getElementById('searchResults');
-            searchResults.innerHTML = '';
-            results.forEach(book => {
-                const bookDiv = document.createElement('div');
-                bookDiv.classList.add('search-result');
-                const genre = book.genre.join(', ');
-                bookDiv.textContent = `ID: ${book._id} Name: ${book.name} Author: ${book.author} Date Published: ${book.date} Genre: ${genre}`;
-                searchResults.appendChild(bookDiv);
-            });
-        }
-
- 
-    </script>
+   <script>
+    function toggleLogin(){
+        var login_toggle = document.getElementById("login_toggle");
+        login_toggle.classList.toggle('active');
+    }
+    function toggleSignUp(){
+        var signup_toggle = document.getElementById("signup_toggle");
+        signup_toggle.classList.toggle('active');
+    }
+   </script>
 </body>
 </html>

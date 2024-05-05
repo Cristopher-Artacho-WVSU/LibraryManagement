@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrow Book</title>
+</head>
+<body>
+    <form id="borrowBookForm">
+        <label for="name">Username:</label>
+        <input type="text" id="username" readonly><br><br>
+
+        <label for="book_title">Book Title:</label>
+        <input type="text" id="title" readonly><br><br>
+
+        <label for="author">Author:</label>
+        <input type="text" id="author" readonly><br><br>
+
+        <label for="date">Date Borrowed:</label>
+        <input type="text" id="borrow_date" readonly><br><br>
+
+        <label for="date">Return Date:</label>
+        <input type="text" id="return_date"><br><br>
+
+        <button type="submit">Add Book</button>
+
+        <script>
+
+            var user_username = sessionStorage.getItem("username");
+            document.getElementById("username").value = user_username;
+            
+            var book_title = sessionStorage.getItem("title");
+            document.getElementById("title").value = book_title;
+
+            var book_author = sessionStorage.getItem("author");
+            document.getElementById("author").value = book_author
+
+            var borrow_date = document.getElementById("borrow_date").value = new Date()
+
+            document.getElementById('borrowBookForm').addEventListener('submit', function(event){
+            event.preventDefault();
+
+            var book_borrowed = borrow_date;
+            var return_date = document.getElementById("return_date").value;
+
+            const borrow_form = {user_username, book_title, book_author, book_borrowed, return_date}
+            
+            fetch('/borrowed', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(borrow_form)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add book. Server returned ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Book added successfully:', data);
+                alert('Book added successfully!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to add book. Please try again.');
+            });
+        })
+        </script>
+</body>
+</html>

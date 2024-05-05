@@ -1,4 +1,40 @@
-body{
+body {
     margin: 0;
     padding: 0;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto; /* Corrected 'auto' spelling */
+    grid-template-rows: 150px 150px 150px 150px 125px;
+}
+
+#navbar {
+    grid-column: 1/span 5;
+    grid-template-rows: 1;
+    background-color: rgb(210, 210, 210);
+    display: flex;
+    padding-top: 100px;
+    padding-right: 30px;
+    color: rgb(31, 31, 31);
+    font-size: 20px;
+}
+#signup_toggle{
+    display: none;
+}
+#login_toggle {
+    display: none;
+}
+
+#signup_toggle.active{
+    display: block;
+}
+#login_toggle.active{
+    display: block;
+}
+
+#toggle-login{
+    position: absolute;
+    right: 250px;
+}
+#toggle-signup{
+    position: absolute;
+    right: 100px;
 }

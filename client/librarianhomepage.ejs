@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management</title>
+    <link rel="stylesheet" href="/librarianhomepage_style.css">
+</head>
+<body>
+    <input type="text" id="searchInput" placeholder="Search for books">
+    <button id="search_button" onclick="searchbar()">Search</button>
+    <div id="searchResults"></div>
+
+    <a href="add_book">Add Book</a>
+    <script>
+    function searchbar() {
+            const searchInput = document.getElementById('searchInput').value;
+            fetch(`/search?query=${searchInput}`)
+                .then(response => response.json())
+                .then(data => {
+                    displaySearchResults(data);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displaySearchResults(results) {
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = '';
+            results.forEach(book => {
+                const bookDiv = document.createElement('div');
+                bookDiv.classList.add('search-result');
+                const genre = book.genre.join(', ');
+                bookDiv.textContent = `ID: ${book._id} Name: ${book.name} Author: ${book.author} Date Published: ${book.date} Genre: ${genre}`;
+                searchResults.appendChild(bookDiv);
+            });
+        }
+
+ 
+    </script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up as a User</title>
+    <link rel="stylesheet" href="/signup_style.css">
+</head>
+<body>
+    <!-- DESIGN PURPOSES -->
+    <div id="upperDesign"></div>
+
+    <!-- FORM FOR SIGN UP -->
+    <div id="signUpDiv">
+        <h1 id="signUpFormTag">Sign Up</h1>
+        <form id="signUpForm">
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Username"> <br>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Password"><br>
+
+
+            <label for="verify_password">Verify Password:</label>
+            <input type="password" id="verify_password" name="verify_password" placeholder="Verify Password"><br>
+            
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" placeholder="Last Name"><br>
+
+            <label for="given_name">Given Name:</label>
+            <input type="text" id="given_name" name="given_name" placeholder="Given Name"><br>
+            
+            <label for="email_address">Email:</label>
+            <input type="text" id="email_address" name="email_address" placeholder="Email-Address"><br>
+            
+            <label for="contact_number">Contact Number:</label>
+            <input type="text" id="contact_number" name="contact_number" placeholder="Contact Number"><br>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" placeholder="address"><br>
+        
+            <label for="profile_picture">User Profile Picture:</label><br>
+            <input type="file" id="profile_picture" name="profile_picture" accept="image/*" single>
+
+            <button type="submit" value="user">Sign up as User</button>
+        </form>
+    </div>
+
+
+<script>
+    //VALIDATING THE INPUTS FOR REQUIREMENTS, CONFIRM PASSWORD, EMAIL, LAST AND FIRST NAME, AND CONTACT NUMBER
+function validateInputs(username, password, last_name, given_name, email_address, contact_number, profile_picture, address, verify_password) {
+    if (!username || !password || !last_name || !given_name || !email_address || !contact_number || !profile_picture || !address ||! verify_password) {
+        alert("All fields are required")
+        throw new Error('All fields are required.');
+    }
+    if (password !== verify_password) {
+        alert("Passwords do not match");
+        throw new Error('Passwords do not match');
+    }
+    if (!email_address.endsWith('.com')) {
+        alert("Email address not valid")
+        throw new Error('Email address must end with ".com".');
+    }
+    if (!contact_number.startsWith('0') || contact_number.length != 11){
+        alert("Contact Number incorrect")
+        throw new Error('Contact Number should start with a zero and is exactly 11 digits in total')
+    }
+    if (username.includes(' ')){
+        alert("Username is incorrect")
+        throw new Error('Username contains whitespaces')
+        return;
+    }
+    if (given_name.charAt(0) !== given_name.charAt(0).toUpperCase()){
+        alert("First letter must be capital")
+        throw new Error('First Name First Letter is not Capital')
+        return;
+    }
+    if (last_name.charAt(0) !== last_name.charAt(0).toUpperCase()){
+        throw new Error('Last Name First Letter is not Capital')
+    }
+
+}
+//VERIFYING THAT THE USERNAME IS UNIQUE WITHIN THE DATABASE
+async function checkUsernameExists(username) {
+        const response = await fetch('/users', {
+            method: 'GET'
+        });
+        if (!response.ok) {
+            throw new Error('Failed to check username existence. Server returned ' + response.status);
+        }
+
+        const usersData = await response.json();
+        const duplicateUser = usersData.find(users => users.username === username);
+
+        if (duplicateUser) {
+            return true;
+        }
+}
+
+//SPLITTING THE ADDRESS INTO CITY, PROVINCE AND BARANGAY
+function parseAddress() {
+            // Get the value from the address input
+            const addressInput = document.getElementById('address').value;
+            const commaCount = addressInput.split(',').length - 1;
+
+            // Check if there are exactly 2 commas
+            if (commaCount !== 2) {
+                return;
+            }
+            // Split the address by commas
+            const addressParts = addressInput.split(',');
+
+            // Trim each part to remove leading and trailing spaces
+            barangay = addressParts[0].trim();
+            province = addressParts[1].trim();
+            city = addressParts[2].trim();
+}
+
+//GLOBAL VARIABLES TO TAKE IN THE VALUE OF ADDRESS
+var barangay;
+var province;
+var city;
+
+
+
+//ADD THE FORM INTO MONGODB DATABASE
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('signUpForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const last_name = document.getElementById('last_name').value;
+        const given_name = document.getElementById('given_name').value;
+        const email_address = document.getElementById('email_address').value;
+        const contact_number = document.getElementById('contact_number').value;
+        const profile_picture = document.getElementById('profile_picture').value;
+        const verify_password = document.getElementById('verify_password').value;
+        //VALIDATE INPUTS
+        validateInputs(username, password, last_name, given_name, email_address, contact_number, profile_picture, address, verify_password);
+
+        //USERNAME CHECK
+            const usernameExists = await checkUsernameExists(username);
+            if (usernameExists) {
+                alert('Username already exists. Please choose a different username.');
+                return;
+            }
+            parseAddress();
+
+            //CHECK IF THERE IS A MISSING OR ADDITIONAL COMMA
+            if (!city || !province || !barangay) {
+                alert('Error: Address must contain exactly three parts separated by commas (City, Province, Barangay)');
+                return; 
+            }
+            
+            //JSON FORM
+            const signup_creds = { username, password, last_name, given_name, email_address, contact_number, profile_picture, city, province, barangay };
+
+            //POST REQUEST ATTEMPT TO /users
+            const response = await fetch('/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(signup_creds)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to register user. Server returned ' + response.status);
+            }
+
+            const data = await response.json();
+            console.log('User successfully registered:', data);
+            alert('User account successfully added!');
+            //REDIRECT TO INDEX AFTER FILLING UP THE FORM
+            window.location.href = '/library-management-system'
+    });
+});
+    </script>
+</body>
+</html>

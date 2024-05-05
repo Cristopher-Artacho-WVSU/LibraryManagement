@@ -1,0 +1,83 @@
+[{
+  "_id": {
+    "$oid": "662f5bb8dfb7732f56085f20"
+  },
+  "book_id": "m12312312qwsad",
+  "book_name": "sample book",
+  "user_id": 123122,
+  "username": "John Doe",
+  "borrow_date": "29/04/2024",
+  "return_date": "30/05/2024",
+  "status": "borrowed",
+  "fine": 0
+},
+{
+  "_id": {
+    "$oid": "6637068aef8db6a8482ba58f"
+  },
+  "user_username": "sheenauser",
+  "book_title": "David",
+  "book_author": "Cristopher A.",
+  "book_borrowed": "Sun May 05 2024 12:09:46 GMT+0800 (Philippine Standard Time)",
+  "return_date": {}
+},
+{
+  "_id": {
+    "$oid": "66375c6a051b265bbd2982bb"
+  },
+  "user_username": "sheenauser",
+  "book_title": "Document 01",
+  "book_author": "Cristopher A.",
+  "book_borrowed": "Sun May 05 2024 18:16:10 GMT+0800 (Philippine Standard Time)",
+  "return_date": {}
+},
+{
+  "_id": {
+    "$oid": "66375cac6bf399c7e937b6e3"
+  },
+  "user_username": "sheenauser",
+  "book_title": "Document 01",
+  "book_author": "Cristopher A.",
+  "book_borrowed": "Sun May 05 2024 18:17:16 GMT+0800 (Philippine Standard Time)",
+  "return_date": {}
+},
+{
+  "_id": {
+    "$oid": "663794777338f1daddec7afb"
+  },
+  "user_username": "sheenauser",
+  "book_title": "David",
+  "book_author": "Cristopher A.",
+  "book_borrowed": "Sun May 05 2024 22:15:19 GMT+0800 (Philippine Standard Time)",
+  "return_date": {}
+},
+{
+  "_id": {
+    "$oid": "6637952dfc2c592211d15ec1"
+  },
+  "user_username": "sheenauser",
+  "book_title": "David",
+  "book_author": "Cristopher A.",
+  "book_borrowed": "Sun May 05 2024 22:18:07 GMT+0800 (Philippine Standard Time)",
+  "return_date": {}
+},
+{
+  "_id": {
+    "$oid": "663795949213d3a57fb9a909"
+  },
+  "user_username": "sheenauser",
+  "book_title": "David",
+  "book_author": "Cristopher A.",
+  "book_borrowed": "Sun May 05 2024 22:20:01 GMT+0800 (Philippine Standard Time)",
+  "return_date": {}
+},
+{
+  "_id": {
+    "$oid": "663797aaece9c9fd85f26f9e"
+  },
+  "user_username": "sheenauser",
+  "book_title": "David",
+  "book_author": "Cristopher A.",
+  "book_borrowed": "2024-05-05T14:28:54.813Z",
+  "return_date": "May 06, 2024"
+}]

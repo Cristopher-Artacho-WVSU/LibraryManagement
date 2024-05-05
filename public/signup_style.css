@@ -3,29 +3,54 @@ body {
     padding: 0;
     display: grid;
     grid-template-columns: auto auto auto auto auto; /* Corrected 'auto' spelling */
-    grid-template-rows: 150px 150px 150px 150px 125px
+    grid-template-rows: 70px 150px 150px 150px 150px 150px 150px;
+
+}
+
+#upperDesign{
+    grid-row: 1;
+    grid-column: 1/span 5;
+    background-color: rgb(154, 153, 153);
 }
 
 #signUpDiv{
-    grid-column: 2/span 3;
-    grid-row: 2/span 3;
-    text-align: center;
-    
+    grid-column: 3;
+    grid-row: 2/span 6;
+    margin-left: 350px;
+    margin-right: 350px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-radius: 7px;
+    box-shadow: 2px 2px 5px 2px rgba(0, 0, 0, 0.3);
 }
 #signUpDiv input{
     margin-bottom: 10px;
-    width: 300px;
     height: 30px;
+    width: 100%;
+    font-family:Arial, Helvetica, sans-serif;
 }
 #signUpDiv label{
-    font-size: 20px;
-    margin-right: 5px;
+    font-size: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
 }
 #signUpDiv button{
     width: 130px;
     height: 40px;
-    background-color: rgb(172, 1, 245);
+    background-color: rgb(147, 147, 147);
     color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     border: none;
     border-radius: 5px;
+}
+
+#signUpFormTag{
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#profile_picture{
+    margin-top: 10px;
 }

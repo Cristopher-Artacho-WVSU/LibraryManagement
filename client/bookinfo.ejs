@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- FOR BOOK INFORMATION. BUTTONS: RESERVE AND BORROW -->
+
+
+    <p id="book_id"></p>
+    <p id="date"></p>
+    <p id="author"></p>
+    <p id="genre"></p>
+    <p id="title"></p>
+    <p id="copies"></p>
+    <img id="picture">
+    
+    <button onclick="location.href='/library-management-system/user/borrow-book'" type="button">Borrow Book</button>
+    
+    <script>
+    // Retrieve values from sessionStorage
+    var book_id = sessionStorage.getItem("book_id");
+    var title = sessionStorage.getItem("title");
+    var author = sessionStorage.getItem("author");
+    var date = sessionStorage.getItem("date");
+    var genre = sessionStorage.getItem("genre");
+    var copies = sessionStorage.getItem("copies");
+    var picture = sessionStorage.getItem("picture");
+    
+    // Set retrieved values to corresponding elements
+    document.getElementById("book_id").textContent = book_id;
+    document.getElementById("title").textContent = title;
+    document.getElementById("author").textContent = author;
+    document.getElementById("date").textContent = date;
+    document.getElementById("genre").textContent = genre;
+    document.getElementById("copies").textContent = copies;
+    
+    // Set the src attribute for the image
+    document.getElementById("picture").src = picture;
+
+
+
+    
+    </script>
+</body>
+</html>

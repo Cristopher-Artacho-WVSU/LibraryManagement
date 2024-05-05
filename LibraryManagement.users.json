@@ -1,28 +1,15 @@
 [{
   "_id": {
-    "$oid": "662a338c2e408f39c63d5a2f"
+    "$oid": "663102d60a61c5dd6acc850c"
   },
-  "username": "sample_user",
-  "password": "sampleuseraccount",
-  "name": "John User",
-  "email-address": "sampleuser@gmail.com"
-},
-{
-  "_id": {
-    "$oid": "662a56b4fc867b2ddf907ee1"
-  },
-  "username": "sample_user2",
-  "password": "sampleuseraccount",
-  "name": "John User",
-  "email-address": "sampleuser@gmail.com"
-},
-{
-  "_id": {
-    "$oid": "662a56ef4f71efc51d849c51"
-  },
-  "username": "sample_user2",
-  "password": "sampleuseraccount",
-  "given_name": "User",
-  "last_name": "John User",
-  "email-address": "sampleuser@gmail.com"
+  "username": "sheenauser",
+  "password": "sheenauser",
+  "last_name": "Doe",
+  "given_name": "Sheena",
+  "email_address": "johndoelibrarian@gmail.com",
+  "contact_number": "02345678910",
+  "profile_picture": "C:\\fakepath\\Dwayne.jpg",
+  "city": "Iloilo",
+  "province": "Zarraga",
+  "barangay": "Poblacion"
 }]

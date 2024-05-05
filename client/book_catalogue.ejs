@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Catalogue</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/bookcatalogue_style.css">
+</head>
+<body>
+
+    <div class="sidebar" id="sidebar">
+        <ul>
+          <li><a href="/users/dashboard">Dashboard</a></li>
+          <li><a href="#">Profile</a></li>
+          <li onmouseenter="toggleSubMenu()" onmouseleave="hideSubMenu()">
+            <a href="database">Books</a>
+            <div class="sub-menu" id="userSubMenu">
+                <a>Borrowed Books</a>
+                <a href="">Returned Books</a>
+                <a href="/users/bookcatalogue">Book Catalogue</a>
+            </div>
+          </li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    
+      <div class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars thin-menu-icon"></i>
+      </div>
+
+
+      <div id="navbar">
+        <p>Book Catalogue</p> 
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <p id="username"></p>&nbsp;&nbsp;
+        <img id="profile_picture">&nbsp;&nbsp;&nbsp;&nbsp;
+         <p><a href="">Log Out</a></p>
+      </div>
+
+      <div id="bookCatalogueDiv">
+        <!-- <div class="bookCatalogue"> -->
+
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+      <script>
+// SCRIPT FOR SIDEBAR
+    function toggleSidebar() {
+      var sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle('active');
+    }
+
+    function toggleSubMenu() {
+      var subMenu = document.getElementById("userSubMenu");
+      subMenu.classList.toggle('active');
+    }
+
+    function hideSubMenu() {
+    var subMenu = document.getElementById("userSubMenu");
+    subMenu.classList.remove('active'); // Add inactive class to hide submenu
+    subMenu.classList.add('inactive')
+}
+
+
+
+
+
+
+// FOR THE USER VALUES
+    const username = sessionStorage.getItem("username");
+    document.getElementById("username").textContent = username;
+    const profile_picture = sessionStorage.getItem("profile_picture");
+    document.getElementById("profile_picture").textContent = profile_picture;
+
+
+//FOR THE BOOK CATALOGUE
+document.addEventListener("DOMContentLoaded", function() {
+    const bookCatalogue = document.getElementById("bookCatalogueDiv");
+
+    // Fetch books data from the server
+    fetch('/books')
+        .then(response => response.json())
+        .then(data => {
+            renderBooks(data);
+        })
+        .catch(error => {
+            console.error('Error fetching books:', error);
+            throw new Error('Error Fetching books');
+        });
+
+    // Function to create a book element
+function createBookElement(book) {
+    const bookDiv = document.createElement("div");
+    bookDiv.classList.add("book");
+
+    const img = document.createElement("img");
+
+    const reader = new FileReader();
+    reader.readAsDataURL(book.picture);
+    reader.onload = function () {
+        const base64Image = reader.result;
+        img.src = base64Image;
+    }
+
+    const title = document.createElement("div");
+    title.classList.add("title");
+    title.textContent = book.title;
+
+    // Add click event listener to the bookDiv
+    bookDiv.addEventListener("click", () => {
+        // Set sessionStorage items with the details of the clicked book
+        sessionStorage.setItem("_id", book.book_id);
+        sessionStorage.setItem("title", book.title);
+        sessionStorage.setItem("author", book.author);
+        sessionStorage.setItem("date", book.date);
+        sessionStorage.setItem("genre", book.genre);
+        sessionStorage.setItem("copies", book.copies);
+        sessionStorage.setItem("picture", book.picture);
+
+        // Navigate to book details page
+        window.location.href = "/library-management-system/users/dashboard/book-catalogue/book-details";
+    });
+
+    bookDiv.appendChild(img);
+    bookDiv.appendChild(title);
+
+    return bookDiv;
+}function createBookElement(book) {
+    const bookDiv = document.createElement("div");
+    bookDiv.classList.add("book");
+
+    const img = document.createElement("img");
+    img.src = book.picture;
+
+    const title = document.createElement("div");
+    title.classList.add("title");
+    title.textContent = book.title;
+
+    // Add click event listener to the bookDiv
+    bookDiv.addEventListener("click", () => {
+        // Set sessionStorage items with the details of the clicked book
+        sessionStorage.setItem("_id", book.book_id);
+        sessionStorage.setItem("title", book.title);
+        sessionStorage.setItem("author", book.author);
+        sessionStorage.setItem("date", book.date);
+        sessionStorage.setItem("genre", book.genre);
+        sessionStorage.setItem("copies", book.copies);
+        sessionStorage.setItem("picture", book.picture);
+
+        // Navigate to book details page
+        window.location.href = "/library-management-system/users/dashboard/book-catalogue/book-details";
+    });
+
+    bookDiv.appendChild(img);
+    bookDiv.appendChild(title);
+
+    return bookDiv;
+}
+    // Function to render books
+  function renderBooks(books) {
+        books.forEach(book => {
+            const bookElement = createBookElement(book);
+            bookCatalogue.appendChild(bookElement);
+        });
+    }
+});
+
+
+      </script>
+</body>
+</html>

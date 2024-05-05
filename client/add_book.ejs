@@ -5,16 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add a Book!</title>
 
- 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/librarianbookmanagement_style.css">
+
 </head>
 <body>
-    <h1>Add Book</h1>
-    <form id="addBookForm">
-        <label for="name">ID:</label>
-        <input type="text" id="_id" name="_id"><br><br>
 
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name"><br><br>
+    <div class="sidebar" id="sidebar">
+        <ul>
+          <li><a href="/librarians/dashboard">Dashboard</a></li>
+          <li><a href="#">Profile</a></li>
+          <li onmouseenter="toggleSubMenu()" onmouseleave="hideSubMenu()">
+            <a>Books</a>
+            <div class="sub-menu" id="librarianSubMenu">
+                <a href="/login/librarian/dashboard/add_book">Add Books</a>
+                <a href="">Edit Books</a>
+                <a href="">Delete Books</a>
+            </div>
+          </li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    
+      <div class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars thin-menu-icon"></i>
+      </div>
+
+
+
+    <div id="navbar">
+        <p>Add Books</p> 
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <p id="username"></p>&nbsp;&nbsp;
+        <img id="profile_picture">&nbsp;&nbsp;&nbsp;&nbsp;
+         <p><a href="">Log Out</a></p>
+    </div>
+
+<div id="addBookDiv">
+    <h1 id="AddBookTag">Add Book</h1>
+    <form id="addBookForm">
+
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title"><br><br>
 
         <label for="author">Author:</label>
         <input type="text" id="author" name="author"><br><br>
@@ -23,30 +57,79 @@
         <input type="text" id="date" name="date"><br><br>
 
         <label for="genre">Genre:</label>
-        <input type="text" id="genre" name="genre"><br><br>\
+        <input type="text" id="genre" name="genre"><br><br>
 
-        <div id="dropzone">Drag and drop images here</div>
-    <input type="file" id="fileInput" name="image" accept="image/*" multiple>
+        <label for="copies">Copies Owned:</label>
+        <input type="text" id="copies" name="copies"><br><br>
+
+        <label for="fileInput">Book Photo:</label>
+        <div id="image_container">
+            <img src="" alt="Book Image" id="image_uploaded" width="300" height="500">
+        </div>
+        <input type="file" id="fileInput" name="image" accept="image/*" single>
 
 
         <button type="submit">Add Book</button>
 
+    </form>
 
+</div>
 
     <script>
+
+    window.onload = function() {
+        document.getElementById('fileInput').addEventListener('change', imageReload);
+    }
+
+    function imageReload(){
+        const image = document.getElementById('fileInput').files[0];
+        const reader = new FileReader();
+        reader.onload = function () {
+            base64Image = reader.result;
+            document.getElementById('image_uploaded').src = base64Image;
+        }
+        reader.readAsDataURL(image);
+    }
+        // SCRIPT FOR SIDEBAR
+    function toggleSidebar() {
+      var sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle('active');
+    }
+
+    function toggleSubMenu() {
+      var subMenu = document.getElementById("librarianSubMenu");
+      subMenu.classList.toggle('active');
+    }
+
+    function hideSubMenu() {
+    var subMenu = document.getElementById("librarianSubMenu");
+    subMenu.classList.remove('active'); // Add inactive class to hide submenu
+    subMenu.classList.add('inactive')
+}
+
         document.getElementById('addBookForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
 
             //TAKES IN ALL THESE ARGUMENTS
-            const _id = document.getElementById('_id').value;
-            const name = document.getElementById('name').value;
+            const title = document.getElementById('title').value;
             const author = document.getElementById('author').value;
             const date = document.getElementById('date').value;
+            const copies = document.getElementById('copies').value;
             const genre = document.getElementById('genre').value.split(',').map(item => item.trim());
+            const image = document.getElementById('fileInput').files[0];
+
+            const reader = new FileReader();
+            reader.readAsDataURL(image);
+            reader.onload = function () {
+                const base64Image = reader.result;
+                let picture = base64Image;
+            }
+            
 
             //CREATES THE JSON FILE
-            const book = {_id, name, author, date, genre };
+            const book = {title, author, date, copies, genre, picture};
+            
 
             
             fetch('/books', {
@@ -65,13 +148,18 @@
             .then(data => {
                 console.log('Book added successfully:', data);
                 alert('Book added successfully!');
-                window.location.href = '/'; // Redirect to home page after adding car
             })
             .catch(error => {
                 console.error('Error:', error);
                 alert('Failed to add book. Please try again.');
             });
         })
+
+    // CREDENTIALS
+    const username = sessionStorage.getItem("username");
+    document.getElementById("username").textContent = username;
+    const profile_picture = sessionStorage.getItem("profile_picture");
+    document.getElementById("profile_picture").textContent = profile_picture;
 
     </script>
 </body>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/login_style.css">
+</head>
+<body>
+    <div id="upperDesign"></div>
+    <div id="logInDiv">
+        <h1 id="logInFormTag">Log In</h1>
+        <form id="logInForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Username"> <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Password"><br>
+            <button type="submit">Log In as a User</button>
+        </form>
+    </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('logInForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const login_username = document.getElementById('username').value;
+        const login_password = document.getElementById('password').value;
+
+        try {
+            // Fetch user data from the server
+            const response = await fetch(`/users?username=${username}`, {
+                method: 'GET'
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch user data. Server returned ' + response.status);
+            }
+
+            try {
+                const userData = await response.json();
+
+                // Check if user exists and password matches
+                const user = userData.find(user => user.username === login_username && user.password ===login_password);
+                if (user) {
+                    // Destructure user object
+                    const {
+                        _id,
+                        last_name,
+                        username,
+                        password,
+                        given_name,
+                        email_address,
+                        contact_number,
+                        profile_picture,
+                        city,
+                        province,
+                        barangay
+                    } = user;
+
+                    // Store user data in sessionStorage
+                    sessionStorage.setItem("_id", _id);
+                    sessionStorage.setItem("username", username); // Corrected
+                    sessionStorage.setItem("password", password); // Corrected
+                    sessionStorage.setItem("last_name", last_name);
+                    sessionStorage.setItem("given_name", given_name);
+                    sessionStorage.setItem("email_address", email_address);
+                    sessionStorage.setItem("contact_number", contact_number);
+                    sessionStorage.setItem("profile_picture", profile_picture);
+                    
+                    sessionStorage.setItem("city", city);
+                    sessionStorage.setItem("province", province);
+                    sessionStorage.setItem("barangay", barangay);
+                    // Redirect to user homepage after setting sessionStorage
+                    window.location.href = '/library-management-system/users/dashboard';
+                } else {
+                    alert('Invalid username or password. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to log in. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to fetch user data. Please try again.');
+        }
+    });
+});
+    </script>
+</body>
+</html>

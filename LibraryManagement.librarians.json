@@ -1,9 +1,27 @@
 [{
   "_id": {
-    "$oid": "662a33112e408f39c63d5a2b"
+    "$oid": "6630aeb239cbc7df522726d2"
   },
-  "username": "sample_lib",
-  "password": "sample",
-  "name": "John Doe",
-  "email-address": "samplelib@gmail.com"
+  "username": "lukesample",
+  "password": "lukesampleaccount",
+  "last_name": "Sample",
+  "given_name": "Luke",
+  "email_address": "lukesampleaccount@gmail.com",
+  "contact_number": "00345678910",
+  "profile_picture": "C:\\fakepath\\Luke.jpg"
+},
+{
+  "_id": {
+    "$oid": "6630e6b4611b8aeccfa04da2"
+  },
+  "username": "lukepaul",
+  "password": "lukesampleacouint",
+  "last_name": "Paul",
+  "given_name": "Luke",
+  "email_address": "lukepaul@gmail.com",
+  "contact_number": "00345678910",
+  "profile_picture": "C:\\fakepath\\Luke.jpg",
+  "city": "Iloilo",
+  "province": "Zarraga",
+  "barangay": "Poblacion"
 }]
