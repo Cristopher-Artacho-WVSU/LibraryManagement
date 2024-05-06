@@ -4,11 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Borrow Book</title>
+    
+            <!-- Include Bootstrap CSS -->
+        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+
+        <!-- Include Bootstrap Datepicker CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
+        <!-- Include Bootstrap Datepicker JS and dependencies -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 </head>
 <body>
     <form id="borrowBookForm">
         <label for="name">Username:</label>
         <input type="text" id="username" readonly><br><br>
+
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" readonly re><br><br>
 
         <label for="book_title">Book Title:</label>
         <input type="text" id="title" readonly><br><br>
@@ -20,53 +35,139 @@
         <input type="text" id="borrow_date" readonly><br><br>
 
         <label for="date">Return Date:</label>
-        <input type="text" id="return_date"><br><br>
+        <input type="text" id="return_date" class="form-control" placeholder="Select Return Date" autocomplete="off" readonly><br><br>
 
         <button type="submit">Add Book</button>
 
         <script>
 
-            var user_username = sessionStorage.getItem("username");
-            document.getElementById("username").value = user_username;
-            
+function validateInputs(username, full_name, book_author, book_borrowed, return_date){
+
+    if (!username || !full_name || !book_author || !book_borrowed || !return_date){
+        alert("All fields are required")
+        throw new Error('All fields are required.');
+    }
+}
+
+
+            //THE PARAMETERS PASSED WITHOUT ANY FORMUALTIONS
+            var username = sessionStorage.getItem("username");
+            document.getElementById("username").value = username;
+
             var book_title = sessionStorage.getItem("title");
             document.getElementById("title").value = book_title;
-
+            
             var book_author = sessionStorage.getItem("author");
             document.getElementById("author").value = book_author
 
-            var borrow_date = document.getElementById("borrow_date").value = new Date()
+            var last_name = sessionStorage.getItem("last_name");
+            var given_name = sessionStorage.getItem("given_name");
 
-            document.getElementById('borrowBookForm').addEventListener('submit', function(event){
-            event.preventDefault();
+            const full_name = last_name + ", " + given_name;
+            document.getElementById("fullName").value = full_name
 
-            var book_borrowed = borrow_date;
-            var return_date = document.getElementById("return_date").value;
+            // //THE DATEPICKER WITH THE USE OF BOOTSTRAP
+            // $('#return_date').datepicker({
+            // format: 'mm-dd-yyyy', // Format the date as MM-DD-YYYY
+            // autoclose: true // Close the datepicker when a date is selected
+            // });
 
-            const borrow_form = {user_username, book_title, book_author, book_borrowed, return_date}
+            // const date = new Date();
+            // const day = String(date.getDate()).padStart(2, '0'); // Get the day of the month (1-31) and pad with leading zero if necessary
+            // const month = String(date.getMonth() + 1).padStart(2, '0'); // Get the month (0-11), adding 1 to convert to 1-12 range, and pad with leading zero if necessary
+            // const year = date.getFullYear(); 
+
+            // var borrow_date = `${month}-${day}-${year}`;
+            // document.getElementById("borrow_date").value = borrow_date;
+
+
+
+// Function to compare dates
+function compareDates(borrowedDate, returnedDate) {
+    // Remove hyphens and parse substrings to integers
+    const borrowParts = borrowedDate.split('-');
+    const borrowYear = parseInt(borrowParts[0], 10);
+    const borrowMonth = parseInt(borrowParts[1], 10) - 1; // Months are zero-indexed
+    const borrowDay = parseInt(borrowParts[2], 10);
+
+    const returnParts = returnedDate.split('-');
+    const returnYear = parseInt(returnParts[0], 10);
+    const returnMonth = parseInt(returnParts[1], 10) - 1; // Months are zero-indexed
+    const returnDay = parseInt(returnParts[2], 10);
+    // Concatenate the date components into a single integer
+    const borrowDateInt = borrowYear * 10000 + (borrowMonth + 1) * 100 + borrowDay;
+    const returnDateInt = returnYear * 10000 + (returnMonth + 1) * 100 + returnDay;
+    // Compare the dates
+    if (returnDateInt < borrowDateInt) {
+        alert("Invalid date: Return date cannot be earlier than borrow date");
+        $('#return_date').val('');
+        return false; // Invalid date
+    } else {
+        return true; // Valid date
+    }
+}
+
+// Borrow date
+const date = new Date();
+const day = String(date.getDate()).padStart(2, '0'); 
+const month = String(date.getMonth() + 1).padStart(2, '0'); 
+const year = date.getFullYear(); 
+const borrow_date = `${year}-${month}-${day}`; // Format as YYYY-MM-DD
+
+// Set the borrow date
+document.getElementById("borrow_date").value = borrow_date;
+
+// Return date
+$('#return_date').datepicker({
+    format: 'yyyy-mm-dd', // Format the date as YYYY-MM-DD
+    autoclose: true,
+});
+
+$('#return_date').on('changeDate', function(event) {
+    // Get the selected return date
+    const returnedDate = event.target.value;
+    console.log("Return date selected:", returnedDate);
+    
+    // Clear the return_date input field
+
+
+    // Compare dates when a return date is selected
+    compareDates(borrow_date, returnedDate);
+});
+
+
+
+    document.getElementById('borrowBookForm').addEventListener('submit', function(event){
+        event.preventDefault();
+        var book_borrowed = borrow_date;
+        var return_date = document.getElementById("return_date").value;
+        validateInputs(username, full_name, book_author, book_borrowed, return_date)
+        
+        const borrow_form = {username, full_name, book_author, book_borrowed, return_date}
             
-            fetch('/borrowed', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+        fetch('/borrowed', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
                 body: JSON.stringify(borrow_form)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to add book. Server returned ' + response.status);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Book added successfully:', data);
-                alert('Book added successfully!');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Failed to add book. Please try again.');
-            });
         })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to add book. Server returned ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Book added successfully:', data);
+            alert('Book added successfully!');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to add book. Please try again.');
+        });
+    })
+
         </script>
 </body>
 </html>

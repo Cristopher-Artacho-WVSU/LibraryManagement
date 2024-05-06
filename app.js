@@ -367,7 +367,9 @@ app.get('/library-management-system/users/dashboard/book-catalogue/book-details'
 app.get('/library-management-system/user/borrow-book', (req, res) =>{
     res.render('borrowbook')
 })
-
+app.get('/library-management-system/user/reserve-book', (req, res) =>{
+    res.render('reservebook')
+})
 
 
 

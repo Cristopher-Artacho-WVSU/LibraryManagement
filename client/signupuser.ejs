@@ -118,6 +118,22 @@ function parseAddress() {
             city = addressParts[2].trim();
 }
 
+    //IF THERE IS A CHANGE IN THE VALUE OF FILEINPUT, IMAGERELOAD() IS TRIGGERED
+    window.onload = function() {
+        document.getElementById('profile_picture').addEventListener('change', imageReload);
+    }
+    //FUNCTION FOR READING THE BOOK PATH
+        function imageReload(){
+        const image = document.getElementById('profile_picture').files[0]; //GETS THE VALUE AS AN OBJECT
+        const reader = new FileReader();  //RETURNS A FILEREADER OBJECT
+        reader.onload = function () {
+            profile_picture = reader.result; //FILE CONTENTS
+        }
+        reader.readAsDataURL(image); //RETURNS THE FILE DATA
+    }
+
+
+
 //GLOBAL VARIABLES TO TAKE IN THE VALUE OF ADDRESS
 var barangay;
 var province;
@@ -136,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const given_name = document.getElementById('given_name').value;
         const email_address = document.getElementById('email_address').value;
         const contact_number = document.getElementById('contact_number').value;
-        const profile_picture = document.getElementById('profile_picture').value;
+        const image = document.getElementById('profile_picture').files[0];
         const verify_password = document.getElementById('verify_password').value;
         //VALIDATE INPUTS
         validateInputs(username, password, last_name, given_name, email_address, contact_number, profile_picture, address, verify_password);
@@ -154,7 +170,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Error: Address must contain exactly three parts separated by commas (City, Province, Barangay)');
                 return; 
             }
-            
+
+            //FILEREADER ADD ON
+            const reader = new FileReader();
+            reader.readAsDataURL(image);
+            reader.onload = function () {
+                const picture = reader.result;
+            }
+
             //JSON FORM
             const signup_creds = { username, password, last_name, given_name, email_address, contact_number, profile_picture, city, province, barangay };
 
