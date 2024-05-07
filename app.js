@@ -299,33 +299,32 @@ app.post('/borrowed', (req, res) =>{
 app.get('/notifications', (req, res) => {
     let notifications = [ ]
 
-    database.collection('borrowHistory')
+    database.collection('notifications')
         .find()
-        .sort({
-            date_borrowed: 1
-        })
+        // .sort({
+        //     : 1
+        // })
         // .skip(page * carsPerPage) //SKIP THE AMOUNT OF CARS TIMES THE PAGE
         // .limit(carsPerPage) //LIMIT THE AMOUNT OF CARS DISPLAYED IN ONE PAGE EQUAL TO THE VALUE
-        .forEach(borrowed_book => borrowed_books.push(borrowed_book))
-        // .toArray()
+        .forEach(messages => notifications.push(messages))
         .then(() =>{
-            res.status(200).json(borrowed_books)
+            res.status(200).json(notifications)
         })
         .catch(() =>{
-            res.status(200).json({
+            res.status(404).json({
                 error: 'Could Not Fetch Documents'
             })
         })
-})
+}) 
 
-app.post('/borrowed', (req, res) =>{
-    const borrowed_book = req.body
-    console.log(borrowed_book)
+app.post('/notifications', (req, res) =>{
+    const notification = req.body
+    console.log(notification)
 
-    database.collection('borrowHistory')
-    .insertOne(borrowed_book)
+    database.collection('notifications')
+    .insertOne(notification)
     .then(result => {
-        res.status(201).json(result)(result.ops[0])
+        res.status(200).json(result)
     })
     .catch(err => {
         res.status(500).json({
@@ -345,6 +344,9 @@ app.post('/borrowed', (req, res) =>{
 app.get('/library-management-system', (req, res) => {
     res.render('index.ejs')
 })
+
+
+
 
 app.get('/library-management-system/signup-user', (req, res) => {
     res.render('signupuser')
@@ -370,7 +372,9 @@ app.get('/library-management-system/user/borrow-book', (req, res) =>{
 app.get('/library-management-system/user/reserve-book', (req, res) =>{
     res.render('reservebook')
 })
-
+app.get('/library-management-system/user/notification', (req, res) => {
+    res.render('notification')
+})
 
 
 
@@ -379,7 +383,7 @@ app.get('/library-management-system/signup-librarian', (req, res) => {
     res.render('signuplibrarian')
 })
 app.get('/library-management-system/login/librarian/dashboard', (req, res) => {
-    res.render('index')
+    res.render('librarianhomepage')
 })
 
 app.get('/library-management-system/login/librarian/dashboard/add_book', (req, res) => {
