@@ -87,7 +87,7 @@
 
                 const full_name = last_name + ", " + given_name;
                 document.getElementById("fullName").value = full_name;
-
+                var fine = 0;
                 // Initialize datepicker for borrow_date input field
                 $('#borrow_date').datepicker({
                     format: 'yyyy-mm-dd', // Format the date as YYYY-MM-DD
@@ -113,7 +113,7 @@
                     var return_date = document.getElementById("return_date").value;
                     
                     // validateInputs(username, full_name, book_author, borrow_date, return_date)
-                    const borrow_form = {username, full_name, book_author, borrow_date, return_date}
+                    const borrow_form = {username, full_name, book_author, borrow_date, return_date, fine}
                         
                     fetch('/borrowed', {
                         method: 'POST',
@@ -156,10 +156,10 @@ document.getElementById('borrowBookForm').addEventListener('submit', addNotifica
             // }
             return response.json();
         })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to send notification. Please try again.');
-        });
+        // .catch(error => {
+        //     console.error('Error:', error);
+        //     alert('Failed to send notification. Please try again.');
+        // });
     }
 
 
