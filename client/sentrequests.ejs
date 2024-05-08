@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sent Requests</title>
+
+    <style>
+        .requestsDiv{
+            background-color: #f2f2f2;
+            padding: 20px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <!-- THE CONTAINER FOR ANOTHER DIV -->
+    <div id="requestsDiv"></div>
+
+    <script>
+        //FOR EACH REQUESTS SENT, THEIR VALUES WILLL BE EXTRACTED
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/sentrequests')
+            .then(response => response.json())
+            .then(sentrequests => {
+                sentrequests.forEach(field => {
+                    showRequests(         
+                        field.time,
+                        field.username,
+                        field.full_name,
+                        field.request_type,
+                        field.request_message,
+                        field.book_title,
+                        field.book_author,
+                        field.borrow_date,
+                        field.return_date,
+                        field._id,
+                    );
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching requests:', error)
+                alert('Error fetching requests. Please Try again')
+            });
+        });
+
+        
+        function showRequests(time, username, full_name, request_type, request_message, book_title, book_author, borrow_date, return_date, _id){
+            const messageContainer = document.getElementById("requestsDiv");
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('requestsDiv');
+
+            const timeField = document.createElement('p');
+            timeField.textContent = 'Time: ' + time;
+            
+            const fullNameField = document.createElement('p');
+            fullNameField.textContent = 'Full Name: ' + full_name;
+
+            const requestTypeField = document.createElement('p');
+            requestTypeField.textContent = 'Request Type: ' + request_type;
+
+            const requestMessageField = document.createElement('p');
+            requestMessageField.textContent = 'Message: ' + request_message;
+
+            const requestID = document.createElement('p');
+            requestID.textContent = 'Request ID: ' + _id;
+            
+            const acceptButton = document.createElement('button');
+            acceptButton.textContent = 'Accept';
+            acceptButton.addEventListener('click', () => {
+                sendToAcceptRequests(username, request_type, book_title, messageDiv)
+                sendToBorrowHistory(username, full_name, book_title, book_author, borrow_date, return_date, messageDiv)
+                removeData(_id)
+            });
+            // ADD AN EVENTLISTENER TO FOLLOW A FUNCTION TO SENND DATA TO "acceptedRequests" COLLECTION
+
+            const rejectButton = document.createElement('button');
+            rejectButton.textContent = 'Reject';
+            rejectButton.addEventListener('click', () => {
+                sendToRejectRequests(username, request_type, book_title, messageDiv)
+                removeData(_id)
+            });
+            // ADD AN EVENTLISTENER TO FOLLOW A FUNCTION TO SENND DATA TO "rejectedRequests" COLLECTION
+            
+            //APPEND THEM ALL FIRST TO THE MESSAGE DIVISION
+            messageDiv.appendChild(timeField);
+            messageDiv.appendChild(fullNameField);
+            messageDiv.appendChild(requestTypeField);
+            messageDiv.appendChild(requestMessageField);
+            messageDiv.appendChild(requestID);
+            messageDiv.appendChild(acceptButton);
+            messageDiv.appendChild(rejectButton);
+
+            ///APPEND THE MESSAGE DIVISION TO THE 
+            messageContainer.appendChild(messageDiv);
+        }   
+
+        function sendToBorrowHistory(username, full_name, book_title, book_author, borrow_date, return_date, messageDiv) {
+    const borrow_form = {
+        username,
+        full_name,
+        book_title,
+        book_author,
+        borrow_date,
+        return_date,
+        fine: 0 // Initialize fine
+    };
+
+    fetch('/borrowed', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(borrow_form)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to add Request Form. Server returned ' + response.status);
+        }
+        // Response sent successfully
+        return response.json(); // Return the parsed JSON
+    })
+    .then(data => {
+        // Handle successful response
+        messageDiv.remove();
+        console.log('Request Form added successfully:', data);
+        alert('Request Form added successfully!');
+    })
+    .catch(error => {
+        // Handle error
+        console.error('Error:', error);
+        alert('Failed to add Request Form. Please try again.');
+    });
+}
+
+    
+    function sendToRejectRequests(username, request_type, book_title, messageDiv){
+        const reject_message = `Sorry ${username}, your ${request_type} for ${book_title} has been rejected`;
+        
+        const rejection_reply = {
+            username,
+            request_type,
+            book_title,
+            reject_message
+        };
+        fetch('/rejectedrequests', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(rejection_reply)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to send reply. Server returned ' + response.status);
+                }
+                messageDiv.remove(); // Remove the notification from the page
+                return response.json();
+            })
+            .then(data => {
+                console.log('Rejection message sent successfully:', data);
+                alert('Rejection message sent successfully!');
+
+            
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to send rejection message. Please try again.');
+            })
+        }
+
+    function sendToAcceptRequests(username, request_type, book_title, messageDiv){
+        const accept_message = `Good day! ${username}, your ${request_type} for ${book_title} has been accepted`;
+        
+        const accept_reply = {
+            username,
+            request_type,
+            book_title,
+            accept_message
+        };
+        fetch('/acceptedrequests', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(accept_reply)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to send reply. Server returned ' + response.status);
+                }
+                messageDiv.remove();
+                return response.json();
+            })
+            .then(data => {
+                console.log(' Confirmation message sent successfully:', data);
+                alert('Confirmation reply sent successfully!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to send confirmation reply. Please try again.');
+            })
+        }
+
+    function removeData (_id) {
+        fetch(`/sentrequests/${_id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Data successfully deleted from /sentrequests');
+            } else {
+                throw new Error('Failed to delete data from /sentrequests');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to delete data from /sentrequests. Please try again.');
+        });
+    }
+    </script>
+</body>
+</html>

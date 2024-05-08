@@ -3,9 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Accepted Requests</title>
+
+    <style>
+        .historyDiv{
+            background-color: #f2f2f2;
+            padding: 20px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
-    <!-- BORROWING HISTORY. RESERVATION INCLUDED -->
+    <div id="historyContainer">
+
+    </div>
+
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch ('/borrowhistory')
+            .then(response => response.json())
+            .then(borrowhistory => {
+                borrowhistory.forEach(field => {
+                showReplies(
+                    field.username,
+                    field.full_name,
+                    field.book_title,
+                    field.book_author,
+                    field.borrow_date,
+                    field.return_date,
+                    field.fine
+                )    
+                });
+            })
+            .catch(error => {
+            console.error('Error fetching replies:', error)
+            alert('Error fetching replies. Please Try again')
+        });
+    });
+
+    function showReplies(username, request_type, book_title, book_author, borrow_date, return_date, fine){
+        const messageContainer = document.getElementById("historyContainer");
+    
+        const historyDiv = document.createElement('div');
+        historyDiv.classList.add('historyDiv');
+
+        const usernameField = document.createElement('p');
+        usernameField.textContent = 'Username: ' + username;
+        
+        const requestTypeField = document.createElement('p');
+        requestTypeField.textContent = 'Request Type: ' + request_type;
+    
+        const bookTitleField =  document.createElement('p');
+        bookTitleField.textContent = 'Book Title: ' + book_title
+    
+        const bookAuthorField = document.createElement('p');
+        bookAuthorField.textContent = 'Book Author: ' + book_author;
+
+        const borrowDateField = document.createElement('p');
+        borrowDateField.textContent = 'Borrow Date: ' + borrow_date;
+
+        const returnDateField = document.createElement('p');
+        returnDateField.textContent = 'Return Date: ' + return_date;
+
+        const fineField = document.createElement('p');
+        
+        updatedFine = updateFine(return_date, fine);
+        fineField.textContent = 'Current Fine: ' + updatedFine;
+
+        historyDiv.appendChild(usernameField);
+        historyDiv.appendChild(requestTypeField);
+        historyDiv.appendChild(bookTitleField);
+        historyDiv.appendChild(bookAuthorField);
+        historyDiv.appendChild(borrowDateField);
+        historyDiv.appendChild(returnDateField);
+        historyDiv.appendChild(fineField);
+
+        messageContainer.appendChild(historyDiv)
+    }
+
+    function updateFine(return_date, fine) {
+    // Get the current date
+    const currentDate = new Date();
+
+    // Parse the return date from the returnDateField
+    const returnDate = new Date(return_date);
+
+    // Calculate the difference in milliseconds between the current date and the return date
+    const timeDiff = currentDate.getTime() - returnDate.getTime();
+    const daysPassed = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert milliseconds to days and round up
+
+    // Calculate the fine based on the number of days passed
+    const calculatedFine = daysPassed > 0 ? (daysPassed * 50) : 0;
+
+    // Update the 'fine' variable by adding the calculated fine
+    fine += calculatedFine;
+
+    return fine;
+}
+
+    </script>
 </body>
 </html>

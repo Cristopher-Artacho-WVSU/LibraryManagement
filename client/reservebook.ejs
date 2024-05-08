@@ -87,7 +87,6 @@
 
                 const full_name = last_name + ", " + given_name;
                 document.getElementById("fullName").value = full_name;
-                var fine = 0;
                 // Initialize datepicker for borrow_date input field
                 $('#borrow_date').datepicker({
                     format: 'yyyy-mm-dd', // Format the date as YYYY-MM-DD
@@ -107,59 +106,63 @@
                     compareDates($('#borrow_date').val(), return_date);
                 });
 
-                document.getElementById('borrowBookForm').addEventListener('submit', function(event){
-                    event.preventDefault();
+                // document.getElementById('borrowBookForm').addEventListener('submit', function(event){
+                //     event.preventDefault();
                     
-                    var return_date = document.getElementById("return_date").value;
+                //     var return_date = document.getElementById("return_date").value;
                     
-                    // validateInputs(username, full_name, book_author, borrow_date, return_date)
-                    const borrow_form = {username, full_name, book_author, borrow_date, return_date, fine}
+                //     // validateInputs(username, full_name, book_author, borrow_date, return_date)
+                //     const borrow_form = {username, full_name, book_author, borrow_date, return_date, fine}
                         
-                    fetch('/borrowed', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(borrow_form)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Failed to add book. Server returned ' + response.status);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Book added successfully:', data);
-                        alert('Book added successfully!');
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Failed to add book. Please try again.');
-                    });
-                });
-document.getElementById('borrowBookForm').addEventListener('submit', addNotification)
+                //     fetch('/borrowed', {
+                //         method: 'POST',
+                //         headers: {
+                //             'Content-Type': 'application/json'
+                //         },
+                //         body: JSON.stringify(borrow_form)
+                //     })
+                //     .then(response => {
+                //         if (!response.ok) {
+                //             throw new Error('Failed to add book. Server returned ' + response.status);
+                //         }
+                //         return response.json();
+                //     })
+                //     .then(data => {
+                //         console.log('Book added successfully:', data);
+                //         alert('Book added successfully!');
+                //     })
+                //     .catch(error => {
+                //         console.error('Error:', error);
+                //         alert('Failed to add book. Please try again.');
+                //     });
+                // });
+document.getElementById('borrowBookForm').addEventListener('submit', addRequest)
            
-    function addNotification(){
-    const notification_message = `${time}: ${username} requests "${book_title}" to be reserved for ${borrow_date} and will be returned in ${return_date}`
-        notification_type = "Reserve Request"
-        const notification = {time, full_name, notification_type, notification_message}
-        fetch('/notifications', {
+    function addRequest(){
+    const request_message = `${time}: ${username} requests "${book_title}" to be reserved for ${borrow_date} and will be returned in ${return_date}`
+        request_type = "Reserve Request"
+        const notification = {time, username, full_name, request_type, request_message, book_title, book_author, borrow_date, return_date}
+        fetch('/sentrequests', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
                 body: JSON.stringify(notification)
         })
-        .then(response => {
-            // if (!response.ok) {
-            //     throw new Error('Failed to send notification. Server returned ' + response.status);
-            // }
-            return response.json();
+        .then(data => {
+                        console.log('Book added successfully:', data);
+                        alert('Book added successfully!');
         })
-        // .catch(error => {
-        //     console.error('Error:', error);
-        //     alert('Failed to send notification. Please try again.');
-        // });
+        // .then(response => {
+        //     // if (!response.ok) {
+        //     //     throw new Error('Failed to send notification. Server returned ' + response.status);
+        //     // }
+        //     return response.json();
+        // })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to send notification. Please try again.');
+        });
     }
 
 

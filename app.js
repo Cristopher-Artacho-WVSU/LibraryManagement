@@ -87,7 +87,7 @@ app.post('/books', (req, res) =>{
     database.collection('books')
     .insertOne(book)
     .then(result => {
-        res.status(201).json(result)(result.ops[0])
+        res.status(201).json(result.ops[0]); // Send the inserted document in the response
     })
     .catch(err => {
         res.status(500).json({
@@ -186,7 +186,7 @@ app.post('/users', (req, res) =>{
     database.collection('users')
     .insertOne(user)
     .then(result => {
-        res.status(201).json(result)(result.ops[0])
+        res.status(201).json(result.ops[0]); // Send the inserted document in the response
     })
     .catch(err => {
         res.status(500).json({
@@ -227,7 +227,7 @@ app.post('/librarians', (req, res) =>{
     database.collection('librarians')
     .insertOne(librarian)
     .then(result => {
-        res.status(201).json(result)(result.ops[0])
+        res.status(201).json(result.ops[0]); // Send the inserted document in the response
     })
     .catch(err => {
         res.status(500).json({
@@ -243,7 +243,7 @@ app.post('/librarians', (req, res) =>{
     database.collection('librarians')
     .insertOne(librarian)
     .then(result => {
-        res.status(201).json(result)(result.ops[0])
+        res.status(201).json(result.ops[0]); // Send the inserted document in the response
     })
     .catch(err => {
         res.status(500).json({
@@ -277,38 +277,36 @@ app.get('/borrowed', (req, res) => {
         })
 })
 
-app.post('/borrowed', (req, res) =>{
-    const borrowed_book = req.body
-    console.log(borrowed_book)
+app.post('/borrowed', (req, res) => {
+    const borrowed_book = req.body;
+    console.log(borrowed_book);
 
     database.collection('borrowHistory')
-    .insertOne(borrowed_book)
-    .then(result => {
-        res.status(201).json(result)(result.ops[0])
-    })
-    .catch(err => {
-        res.status(500).json({
-            err: 'Could not add borrow credentials'
+        .insertOne(borrowed_book)
+        .then(result => {
+            res.status(201).json(result.ops[0]); // Send the inserted document in the response
         })
-    })
-})   
+        .catch(err => {
+            res.status(500).json({ error: 'Could not add borrow credentials' });
+        });
+}); 
 
 
 
 
-app.get('/notifications', (req, res) => {
-    let notifications = [ ]
+app.get('/borrowhistory', (req, res) => {
+    let history = [ ]
 
-    database.collection('notifications')
+    database.collection('borrowHistory')
         .find()
         // .sort({
         //     : 1
         // })
         // .skip(page * carsPerPage) //SKIP THE AMOUNT OF CARS TIMES THE PAGE
         // .limit(carsPerPage) //LIMIT THE AMOUNT OF CARS DISPLAYED IN ONE PAGE EQUAL TO THE VALUE
-        .forEach(messages => notifications.push(messages))
+        .forEach(messages => history.push(messages))
         .then(() =>{
-            res.status(200).json(notifications)
+            res.status(200).json(history)
         })
         .catch(() =>{
             res.status(404).json({
@@ -318,11 +316,119 @@ app.get('/notifications', (req, res) => {
 }) 
 
 app.post('/notifications', (req, res) =>{
-    const notification = req.body
-    console.log(notification)
+    const history = req.body
+    console.log(history)
 
     database.collection('notifications')
-    .insertOne(notification)
+    .insertOne(history)
+    .then(result => {
+        res.status(200).json(result)
+    })
+    .catch(err => {
+        res.status(500).json({
+            err: 'Could not add borrow credentials'
+        })
+    })
+})   
+
+app.get('/sentrequests', (req, res) => {
+    let sentrequests = [ ]
+
+    database.collection('sentRequests')
+        .find()
+        .forEach(requests => sentrequests.push(requests))
+        .then(() =>{
+            res.status(200).json(sentrequests)
+        })
+        .catch(() =>{
+            res.status(404).json({
+                error: 'Could Not Fetch Documents'
+            })
+        })
+}) 
+
+app.post('/sentrequests', (req, res) =>{
+    const requests = req.body
+    console.log(requests)
+
+    database.collection('sentRequests')
+    .insertOne(requests)
+    .then(result => {
+        res.status(200).json(result)
+    })
+    .catch(err => {
+        res.status(500).json({
+            err: 'Could not add borrow credentials'
+        })
+    })
+})   
+
+app.get('/sentrequests/:id', (req, res) => {
+
+    if (ObjectId.isValid(req.params.id)){
+        const objectID = new ObjectId(req.params.id)
+
+        database.collection('sentRequests')
+        .findOne({_id: objectID})
+        .then(doc => {
+            if (doc) {
+                res.status(200).json(doc);
+            }
+            else {
+                res.status(404).json({error: 'Request not found'});
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'No collection found' });
+        });
+    } else {
+        res.status(500).json({error: "Invalid ID"})
+    }})
+
+app.delete('/sentrequests/:id', (req, res) => {
+    if (ObjectId.isValid(req.params.id)) {
+        database.collection('sentRequests')
+        .deleteOne({ _id: new ObjectId(req.params.id)})
+        .then(result => {
+            if (result) {
+                res.status(200).json(result);
+            } else {
+                res.status(404).json({ error: 'Request cannot be delete' });
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'Collection not found' });
+        });
+} else {
+    res.status(500).json({ error: 'Invalid ID' });
+}})
+
+
+
+app.get('/rejectedrequests', (req, res) => {
+    let rejectedrequests = [ ]
+
+    database.collection('rejectedRequests')
+        .find()
+        .forEach(requests => rejectedrequests.push(requests))
+        .then(() =>{
+            res.status(200).json(rejectedrequests)
+        })
+        .catch(() =>{
+            res.status(404).json({
+                error: 'Could Not Fetch Documents'
+            })
+        })
+}) 
+
+app.post('/rejectedrequests', (req, res) =>{
+    const requests = req.body
+    console.log(requests)
+
+    database.collection('rejectedRequests')
+    .insertOne(requests)
     .then(result => {
         res.status(200).json(result)
     })
@@ -334,6 +440,37 @@ app.post('/notifications', (req, res) =>{
 })   
 
 
+app.get('/acceptedrequests', (req, res) => {
+    let acceptedrequests = [ ]
+
+    database.collection('acceptedRequests')
+        .find()
+        .forEach(requests => acceptedrequests.push(requests))
+        .then(() =>{
+            res.status(200).json(acceptedrequests)
+        })
+        .catch(() =>{
+            res.status(404).json({
+                error: 'Could Not Fetch Documents'
+            })
+        })
+}) 
+
+app.post('/acceptedRequests', (req, res) =>{
+    const requests = req.body
+    console.log(requests)
+
+    database.collection('acceptedRequests')
+    .insertOne(requests)
+    .then(result => {
+        res.status(200).json(result)
+    })
+    .catch(err => {
+        res.status(500).json({
+            err: 'Could not add borrow credentials'
+        })
+    })
+})
 
 
 
@@ -372,8 +509,20 @@ app.get('/library-management-system/user/borrow-book', (req, res) =>{
 app.get('/library-management-system/user/reserve-book', (req, res) =>{
     res.render('reservebook')
 })
-app.get('/library-management-system/user/notification', (req, res) => {
-    res.render('notification')
+app.get('/library-management-system/user/notifications', (req, res) => {
+    res.render('notifications')
+})
+app.get('/library-management-system/user/sent-requests', (req, res) => {
+    res.render('sentrequests')
+})
+app.get('/library-management-system/user/accepted-requests', (req, res) => {
+    res.render('acceptedrequests')
+})
+app.get('/library-management-system/user/rejected-requests', (req, res) => {
+    res.render('rejectedrequests')
+})
+app.get('/library-management-system/user/borrow-history', (req, res) => {
+    res.render('borrowhistory')
 })
 
 
@@ -393,4 +542,6 @@ app.get('/library-management-system/login/librarian/dashboard/add_book', (req, r
 app.get('/library-management-system/loginlibrarian', (req, res) => {
     res.render('loginlibrarian')
 })
-
+app.get('/library-management-system/librarian/notifications', (req, res) => {
+    res.render('notifications')
+})

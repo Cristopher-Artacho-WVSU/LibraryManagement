@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accepted Requests</title>
+
+    <style>
+        .messageDiv{
+            background-color: #f2f2f2;
+            padding: 20px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div id="messageContainer">
+
+    </div>
+
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch ('/rejectedrequests')
+            .then(response => response.json())
+            .then(rejectedrequests => {
+                rejectedrequests.forEach(field => {
+                showReplies(
+                    field.username,
+                    field.request_type,
+                    field.book_title,
+                    field.reject_message
+                )    
+                });
+            })
+            .catch(error => {
+            console.error('Error fetching replies:', error)
+            alert('Error fetching replies. Please Try again')
+        });
+    });
+
+    function showReplies(username, request_type, book_title, reject_message){
+        const messageContainer = document.getElementById("messageContainer");
+    
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('messageDiv');
+
+        const usernameField = document.createElement('p');
+        usernameField.textContent = 'Username: ' + username
+        
+        const requestTypeField = document.createElement('p');
+        requestTypeField.textContent = 'Request Type: ' + request_type;
+    
+        const bookTitleField =  document.createElement('p');
+        bookTitleField.textContent = 'Book Title: ' + book_title
+
+        const messageField = document.createElement('p');
+        messageField.textContent = 'Message: ' + reject_message;
+    
+        messageDiv.appendChild(usernameField);
+        messageDiv.appendChild(requestTypeField);
+        messageDiv.appendChild(bookTitleField);
+        messageDiv.appendChild(messageField);
+
+        messageContainer.appendChild(messageDiv)
+    }
+
+
+    </script>
+</body>
+</html>

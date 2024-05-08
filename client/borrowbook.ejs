@@ -32,7 +32,7 @@
         <input type="text" id="author" readonly><br><br>
 
         <label for="date">Date Borrowed:</label>
-        <input type="text" id="borrow_date" readonly><br><br>
+        <input type="text" id="start_date" readonly><br><br>
 
         <label for="date">Return Date:</label>
         <input type="text" id="return_date" class="form-control" placeholder="Select Return Date" autocomplete="off" readonly><br><br>
@@ -41,9 +41,9 @@
 
         <script>
             var return_date;
-function validateInputs(username, full_name, book_author, book_borrowed, return_date){
+function validateInputs(username, full_name, book_author, borrow_date, return_date){
 
-    if (!username || !full_name || !book_author || !book_borrowed || !return_date){
+    if (!username || !full_name || !book_author || !borrow_date || !return_date){
         alert("All fields are required")
         throw new Error('All fields are required.');
     }
@@ -66,7 +66,7 @@ function validateInputs(username, full_name, book_author, book_borrowed, return_
             const full_name = last_name + ", " + given_name;
             document.getElementById("fullName").value = full_name
 
-            var fine = 0;
+            // var fine = 0;
             // //THE DATEPICKER WITH THE USE OF BOOTSTRAP
             // $('#return_date').datepicker({
             // format: 'mm-dd-yyyy', // Format the date as MM-DD-YYYY
@@ -84,9 +84,9 @@ function validateInputs(username, full_name, book_author, book_borrowed, return_
 
 
 // Function to compare dates
-function compareDates(borrowedDate, return_date) {
+function compareDates(start_date, return_date) {
     // Remove hyphens and parse substrings to integers
-    const borrowParts = borrowedDate.split('-');
+    const borrowParts = start_date.split('-');
     const borrowYear = parseInt(borrowParts[0], 10);
     const borrowMonth = parseInt(borrowParts[1], 10) - 1; // Months are zero-indexed
     const borrowDay = parseInt(borrowParts[2], 10);
@@ -115,7 +115,7 @@ const day = String(date.getDate()).padStart(2, '0');
 const month = String(date.getMonth() + 1).padStart(2, '0'); 
 const year = date.getFullYear(); 
 // const time = (date.getHours()+8, date.getMinutes(), date.getSeconds())
-const borrow_date = `${year}-${month}-${day}`; // Format as YYYY-MM-DD
+const start_date = `${year}-${month}-${day}`; // Format as YYYY-MM-DD
 
 const hours = String(date.getHours()).padStart(2, '0'); // Get hours and pad with leading zero if needed
 const minutes = String(date.getMinutes()).padStart(2, '0'); // Get minutes and pad with leading zero if needed
@@ -125,7 +125,7 @@ const time = `${hours}:${minutes}:${seconds}`; // Concatenate hours, minutes, an
 
 console.log(time); // Output should be something like: "10:30:25" (depending on the current time)
 // Set the borrow date
-document.getElementById("borrow_date").value = borrow_date;
+document.getElementById("start_date").value = start_date;
 
 // Return date
 $('#return_date').datepicker({
@@ -137,63 +137,68 @@ $('#return_date').on('changeDate', function(event) {
     // Get the selected return date
     return_date = event.target.value;
     console.log("Return date selected:", return_date);
-    compareDates(borrow_date, return_date);
+    compareDates(start_date, return_date);
 });
 
 
 
-    document.getElementById('borrowBookForm').addEventListener('submit', function(event){
-        event.preventDefault();
-        var book_borrowed = borrow_date;
-        var return_date = document.getElementById("return_date").value;
-        validateInputs(username, full_name, book_author, book_borrowed, return_date)
+    // document.getElementById('borrowBookForm').addEventListener('submit', function(event){
+    //     event.preventDefault();
+        // var book_borrowed = borrow_date;
+        // var return_date = document.getElementById("return_date").value;
+        // validateInputs(username, full_name, book_author, book_borrowed, return_date)
         
-        const borrow_form = {username, full_name, book_author, book_borrowed, return_date, fine}
+        // const borrow_form = {username, full_name, book_author, book_borrowed, return_date, fine}
             
-        fetch('/borrowed', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-                body: JSON.stringify(borrow_form)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to add book. Server returned ' + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Book added successfully:', data);
-            alert('Book added successfully!');
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to add book. Please try again.');
-        });
+    //     fetch('/borrowed', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //             body: JSON.stringify(borrow_form)
+    //     })
+    //     .then(response => {
+    //         if (!response.ok) {
+    //             throw new Error('Failed to add book. Server returned ' + response.status);
+    //         }
+    //         return response.json();
+    //     })
+    //     .then(data => {
+    //         console.log('Book added successfully:', data);
+    //         alert('Book added successfully!');
+    //     })
+    //     .catch(error => {
+    //         console.error('Error:', error);
+    //         alert('Failed to add book. Please try again.');
+    //     });
 
-    })
+    // })
 
-document.getElementById('borrowBookForm').addEventListener('submit', addNotification)
-    
-    
-function addNotification(){
-    const notification_message = `${time}: ${username} requests "${book_title}" to be borrowed. It will be returned in ${return_date}`
-        notification_type = "Borrow Request"
-        const notification = {time, full_name, notification_type, notification_message}
-        fetch('/notifications', {
+document.getElementById('borrowBookForm').addEventListener('submit', addRequest)
+function addRequest(){
+
+    var borrow_date = start_date;
+        validateInputs(username, full_name, book_author, borrow_date, return_date)
+    const request_message = `${time}: ${username} requests "${book_title}" to be borrowed. It will be returned in ${return_date}`
+        request_type = "Borrow Request"
+        const notification = {time, username, full_name, request_type, request_message, book_title, book_author, borrow_date, return_date}
+        fetch('/sentrequests', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
                 body: JSON.stringify(notification)
         })
-        .then(response => {
-            // if (!response.ok) {
-            //     throw new Error('Failed to send notification. Server returned ' + response.status);
-            // }
-            return response.json();
+        .then(data => {
+                        console.log('Book added successfully:', data);
+                        alert('Book added successfully!');
         })
+        // .then(response => {
+        //     // if (!response.ok) {
+        //     //     throw new Error('Failed to send notification. Server returned ' + response.status);
+        //     // }
+        //     return response.json();
+        // })
         .catch(error => {
             console.error('Error:', error);
             alert('Failed to send notification. Please try again.');

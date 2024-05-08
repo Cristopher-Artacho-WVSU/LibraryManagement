@@ -106,10 +106,9 @@
     subMenu.classList.remove('active'); // Add inactive class to hide submenu
     subMenu.classList.add('inactive')
 }
-        document.getElementById('addBookForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-
+        document.getElementById('addBookForm').addEventListener('submit', addBook) 
+function addBook() {
+    // event.preventDefault();
             //TAKES IN ALL THESE ARGUMENTS
             const title = document.getElementById('title').value;
             const author = document.getElementById('author').value;
@@ -147,18 +146,20 @@
             .then(data => {
                 console.log('Book added successfully:', data);
                 alert('Book added successfully!');
+                window.href
             })
             .catch(error => {
                 console.error('Error:', error);
                 alert('Failed to add book. Please try again.');
             });
-        })
+}
+
 
     // CREDENTIALS
     const username = sessionStorage.getItem("username");
     document.getElementById("username").textContent = username;
     const profile_picture = sessionStorage.getItem("profile_picture");
-    document.getElementById("profile_picture").textContent = profile_picture;
+    document.getElementById("profile_picture").src = profile_picture;
 
     </script>
 </body>
