@@ -1,0 +1,42 @@
+[{
+  "_id": {
+    "$oid": "663b4193bc5a30fe1beb3cf8"
+  },
+  "time": "17:10:04",
+  "username": "lukesample",
+  "full_name": "Paul, Luke",
+  "request_type": "Borrow Request",
+  "request_message": "17:10:04: lukesample requests \"Don Quixote\" to be borrowed. It will be returned in 2024-05-25",
+  "book_title": "Don Quixote",
+  "book_author": "Miguel de Cervantes",
+  "borrow_date": "2024-05-08",
+  "return_date": "2024-05-25"
+},
+{
+  "_id": {
+    "$oid": "663c41c90db8f1c2c9eb9cf8"
+  },
+  "time": "11:23:45",
+  "username": "cristopherian",
+  "full_name": "Artacho, Cristopher Ian",
+  "request_type": "Borrow Request",
+  "request_message": "11:23:45: cristopherian requests \"Demian\" to be borrowed. It will be returned in 2024-05-24",
+  "book_title": "Demian",
+  "book_author": "Hermann Hesse",
+  "borrow_date": "2024-05-09",
+  "return_date": "2024-05-24"
+},
+{
+  "_id": {
+    "$oid": "663c41d60db8f1c2c9eb9cf9"
+  },
+  "time": "11:23:53",
+  "username": "cristopherian",
+  "full_name": "Artacho, Cristopher Ian",
+  "request_type": "Borrow Request",
+  "request_message": "11:23:53: cristopherian requests \"Demian\" to be borrowed. It will be returned in 2024-05-16",
+  "book_title": "Demian",
+  "book_author": "Hermann Hesse",
+  "borrow_date": "2024-05-09",
+  "return_date": "2024-05-16"
+}]

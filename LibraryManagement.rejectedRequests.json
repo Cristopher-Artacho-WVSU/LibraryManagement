@@ -1,0 +1,36 @@
+[{
+  "_id": {
+    "$oid": "663b0b6e9d1570bd4f6088b5"
+  },
+  "username": "cristopherian",
+  "request_type": "Borrow Request",
+  "book_title": "Don Quixote",
+  "reject_message": "Sorry cristopherian, your Borrow Request for Don Quixote has been rejected"
+},
+{
+  "_id": {
+    "$oid": "663b423f49ddd078a1fdfe79"
+  },
+  "username": "lukesample",
+  "request_type": "Borrow Request",
+  "book_title": "Don Quixote",
+  "reject_message": "Sorry lukesample, your Borrow Request for Don Quixote has been rejected"
+},
+{
+  "_id": {
+    "$oid": "663b905a5972f1d416dba7bd"
+  },
+  "username": "cristopherian",
+  "request_type": "Reserve Request",
+  "book_title": "Don Quixote",
+  "reject_message": "Sorry cristopherian, your Reserve Request for Don Quixote has been rejected"
+},
+{
+  "_id": {
+    "$oid": "663b90b35972f1d416dba7be"
+  },
+  "username": "cristopherian",
+  "request_type": "Reserve Request",
+  "book_title": "Don Quixote",
+  "reject_message": "Sorry cristopherian, your Reserve Request for Don Quixote has been rejected"
+}]

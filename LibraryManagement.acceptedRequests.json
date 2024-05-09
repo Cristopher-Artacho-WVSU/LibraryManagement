@@ -1,0 +1,72 @@
+[{
+  "_id": {
+    "$oid": "663b0eaf03fa3402194b0157"
+  },
+  "username": "cristopherian",
+  "request_type": "Borrow Request",
+  "book_title": "Don Quixote",
+  "accept_message": "Good day! cristopherian, your Borrow Request for Don Quixote has been accepted"
+},
+{
+  "_id": {
+    "$oid": "663b41c9bc5a30fe1beb3cf9"
+  },
+  "username": "lukesample",
+  "request_type": "Borrow Request",
+  "book_title": "Don Quixote",
+  "accept_message": "Good day! lukesample, your Borrow Request for Don Quixote has been accepted"
+},
+{
+  "_id": {
+    "$oid": "663b474c49ddd078a1fdfe7a"
+  },
+  "username": "lukesample",
+  "request_type": "Borrow Request",
+  "book_title": "Don Quixote",
+  "accept_message": "Good day! lukesample, your Borrow Request for Don Quixote has been accepted"
+},
+{
+  "_id": {
+    "$oid": "663b4854b9429a5f4905c425"
+  },
+  "username": "lukesample",
+  "request_type": "Borrow Request",
+  "book_title": "Don Quixote",
+  "accept_message": "Good day! lukesample, your Borrow Request for Don Quixote has been accepted"
+},
+{
+  "_id": {
+    "$oid": "663b90d45972f1d416dba7bf"
+  },
+  "username": "cristopherian",
+  "request_type": "Borrow Request",
+  "book_title": "Don Quixote",
+  "accept_message": "Good day! cristopherian, your Borrow Request for Don Quixote has been accepted"
+},
+{
+  "_id": {
+    "$oid": "663b91c014718b592588a715"
+  },
+  "username": "cristopherian",
+  "request_type": "Borrow Request",
+  "book_title": "Don Quixote",
+  "accept_message": "Good day! cristopherian, your Borrow Request for Don Quixote has been accepted"
+},
+{
+  "_id": {
+    "$oid": "663b9257f7823cb89466db18"
+  },
+  "username": "cristopherian",
+  "request_type": "Borrow Request",
+  "book_title": "Don Quixote",
+  "accept_message": "Good day! cristopherian, your Borrow Request for Don Quixote has been accepted"
+},
+{
+  "_id": {
+    "$oid": "663c42030db8f1c2c9eb9cfb"
+  },
+  "username": "cristopherian",
+  "request_type": "Borrow Request",
+  "book_title": "The Wings",
+  "accept_message": "Good day! cristopherian, your Borrow Request for The Wings has been accepted"
+}]
