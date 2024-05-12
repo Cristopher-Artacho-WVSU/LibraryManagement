@@ -9,12 +9,13 @@ app.use(express.json())
 
 //SERVE THE STATIC FILES FROM THE 'public' DIRECTORY
 app.use(express.static('public')) 
-
+app.use(express.static('scripts'))
 //SETTING THE VIEW ENGINE TO EJS ONLY FROM client FOLDER
 app.set ('view engine', 'ejs');
 app.set('views', './client')
 app.set(express.static('client'));
-
+app.set(express.static('user'))
+app.set(express.static('librarian'))
 //ESTABLISHING THE CONNECTION TO THE DATABASE
 let database 
 
@@ -219,22 +220,6 @@ app.get('/librarians', (req, res) => {
             })
         })
 })
-
-app.post('/librarians', (req, res) =>{
-    const librarian = req.body
-    console.log(librarian)
-
-    database.collection('librarians')
-    .insertOne(librarian)
-    .then(result => {
-        res.status(201).json(result.ops[0]); // Send the inserted document in the response
-    })
-    .catch(err => {
-        res.status(500).json({
-            err: 'Could not create a new librarian'
-        })
-    })
-})   
 
 app.post('/librarians', (req, res) =>{
     const librarian = req.body
@@ -479,7 +464,7 @@ app.post('/acceptedRequests', (req, res) =>{
 
 
 app.get('/library-management-system', (req, res) => {
-    res.render('index.ejs')
+    res.render('index')
 })
 
 
@@ -488,40 +473,42 @@ app.get('/library-management-system', (req, res) => {
 app.get('/library-management-system/signup-user', (req, res) => {
     res.render('signupuser')
 })
-
+// LINK TO THE USER LOGIN WEBPAGE
 app.get('/library-management-system/login-user', (req, res) => {
-    res.render('loginuser')
-})
+    res.render('userLogin')
+}) //LINK TO THE USER DASHBOARD
 app.get('/library-management-system/users/dashboard',(req, res) => {
-    res.render('userhomepage')
+    res.render('userDashboard')
 })
-
+app.get('/library-management-system/users/profile', (req, res) => {
+    res.render('userProfile')
+}) //LINK TO THE BOOK CATALOGUE
 app.get('/library-management-system/users/dashboard/book-catalogue',(req, res) => {
-    res.render('book_catalogue')
-})
+    res.render('bookCatalogue')
+}) //LINK TO THE BOOKINFO
 app.get('/library-management-system/users/dashboard/book-catalogue/book-details',(req, res) => {
-    res.render('bookinfo')
+    res.render('bookInfo')
 })
-
-app.get('/library-management-system/user/borrow-book', (req, res) =>{
-    res.render('borrowbook')
+// LINK TO BORROW BOOK
+app.get('/library-management-system/users/borrow-book', (req, res) =>{
+    res.render('borrowBook')
+}) //LINK TO RESERVE BOOK
+app.get('/library-management-system/users/reserve-book', (req, res) =>{
+    res.render('reserveBook')
 })
-app.get('/library-management-system/user/reserve-book', (req, res) =>{
-    res.render('reservebook')
-})
-app.get('/library-management-system/user/notifications', (req, res) => {
+app.get('/library-management-system/users/notifications', (req, res) => {
     res.render('notifications')
 })
-app.get('/library-management-system/user/sent-requests', (req, res) => {
+app.get('/library-management-system/users/sent-requests', (req, res) => {
     res.render('sentrequests')
 })
-app.get('/library-management-system/user/accepted-requests', (req, res) => {
+app.get('/library-management-system/users/accepted-requests', (req, res) => {
     res.render('acceptedrequests')
 })
-app.get('/library-management-system/user/rejected-requests', (req, res) => {
+app.get('/library-management-system/users/rejected-requests', (req, res) => {
     res.render('rejectedrequests')
 })
-app.get('/library-management-system/user/borrow-history', (req, res) => {
+app.get('/library-management-system/users/borrow-history', (req, res) => {
     res.render('borrowhistory')
 })
 

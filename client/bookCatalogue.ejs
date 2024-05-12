@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Catalogue</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/bookCatalogue_style.css">
+</head>
+<body>
+    <!-- CLASS IS MAINLY FOR CSS USE AND ID IS FOR JAVASCRIPT. THE DIVISION WHERE ALL THE LINKS ARE ADDED -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+          <!-- LISTED LINKS -->
+          <li><a href="/library-management-system/users/dashboard">User Dashboard</a></li>
+          <li><a href="/library-management-system/users/profile">Profile</a></li>
+          
+          <!-- SUBMENU DIVISION IS TOGGLED WHEN WITHIN THE RANGE. SPECIFICALLY WHEN WE HOVER ON "Books" -->
+          <li onmouseenter="toggleSubMenu()" onmouseleave="hideSubMenu()">
+            <a href="database">Books</a>
+            <div class="sub-menu" id="bookSubMenu">
+                <a href="/library-management-system/users/sent-requests">Requests</a>
+                <a>Borrowed Books</a>
+                <a href="">Returned Books</a>
+                <a href="/library-management-system/users/dashboard/book-catalogue">Book Catalogue</a>
+            </div>
+          </li>
+          <!-- NO CONTENT YET. SHOULD CONTAIN SOOME SAMPLE ABOUT AND CONTACT PAGE -->
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <!-- ADD MORE FOR REQUEST: REQUESTS SENT, REQUESTS ACCEPTED AND REQUESTS REJECTED. SHOULD BE IMPLEMENTED IN SUBMENU TOO -->
+        </ul>
+      </div>
+    
+      <div class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars thin-menu-icon"></i>
+      </div>
+
+
+      <!-- SAMPLE NAVBAR. CONAINS THE WEBPAGE NAME,USERNAME, PROFILE PICTURE AND LOGOUT. LOGOUT STILL NOT FUNCTIONAL -->
+      <div id="navbar">
+        <p>User Profile</p> 
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <p id="username"></p>&nbsp;&nbsp;
+        <img id="profilePicture">&nbsp;&nbsp;&nbsp;&nbsp;
+         <p><a href="">Log Out</a></p>
+      </div>
+
+      <!-- THE DIVISION FOR THE CATALOGUE -->
+      <div id="bookCatalogueDiv">
+
+        </div>
+      </div>
+
+      <script src="/bookCatalogue_script.js"></script>
+</body>
+</html>

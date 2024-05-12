@@ -1,0 +1,13 @@
+[{
+  "_id": {
+    "$oid": "663ef069474b1888e4714c40"
+  },
+  "memberFirstName": "Cristopher Ian",
+  "memberMiddleName": "Jabadan",
+  "memberLastName": "Artacho",
+  "memberFullName": "Cristopher Ian Artacho",
+  "departmentInCharge": "Emergency",
+  "InitialLoan": 600000,
+  "totalLoan": 600000,
+  "startDateMember": "2024-05-11"
+}]

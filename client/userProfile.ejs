@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System - User Profile</title>
+
+    <!-- THE LINK TO THHE CSS -->
+    <link rel="stylesheet" href="/userProfile_style.css">
+    <!-- THE LINK TO THE FONT -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap">
+    <!-- THE LINK TO THE ICON -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  </head>
+<body>
+    <!-- CLASS IS MAINLY FOR CSS USE AND ID IS FOR JAVASCRIPT. THE DIVISION WHERE ALL THE LINKS ARE ADDED -->
+    <div class="sidebar" id="sidebar">
+        <ul>
+          <!-- LISTED LINKS -->
+          <li><a href="/library-management-system/users/dashboard">User Dashboard</a></li>
+          <li><a href="/library-management-system/users/profile">Profile</a></li>
+          
+          <!-- SUBMENU DIVISION IS TOGGLED WHEN WITHIN THE RANGE. SPECIFICALLY WHEN WE HOVER ON "Books" -->
+          <li onmouseenter="toggleSubMenu()" onmouseleave="hideSubMenu()">
+            <a href="database">Books</a>
+            <div class="sub-menu" id="bookSubMenu">
+                <a href="/library-management-system/user/sent-requests">Requests</a>
+                <a>Borrowed Books</a>
+                <a href="">Returned Books</a>
+                <a href="/library-management-system/users/dashboard/book-catalogue">Book Catalogue</a>
+            </div>
+          </li>
+          <!-- NO CONTENT YET. SHOULD CONTAIN SOOME SAMPLE ABOUT AND CONTACT PAGE -->
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <!-- ADD MORE FOR REQUEST: REQUESTS SENT, REQUESTS ACCEPTED AND REQUESTS REJECTED. SHOULD BE IMPLEMENTED IN SUBMENU TOO -->
+        </ul>
+      </div>
+    
+    
+      <div class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars thin-menu-icon"></i>
+      </div>
+
+      <!-- SAMPLE NAVBAR. CONAINS THE WEBPAGE NAME,USERNAME, PROFILE PICTURE AND LOGOUT. LOGOUT STILL NOT FUNCTIONAL -->
+      <div id="navbar">
+        <p>User Profile</p> 
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <p id="username"></p>&nbsp;&nbsp;
+        <img id="profilePicture">&nbsp;&nbsp;&nbsp;&nbsp;
+         <p><a href="">Log Out</a></p>
+      </div>
+
+      <!-- USER CREDENTIALS -->
+    <div id="userCredentialsDiv">
+        <form action="" id="userCredentials">
+            <label for="_id">User ID:</label>
+            <input type="text" name="_id" id="_id" readonly> <br>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" readonly> <br>
+            
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last_name" id="lastName" readonly> <br>
+
+            <label for="given_name">Given Name:</label>
+            <input type="text" name="given_name" id="givenName" readonly> <br>
+
+            <label for="email_address">Email:</label>
+            <input type="text" name="email_address" id="emailAddress" readonly> <br>
+
+            <label for="contact_number">Contact Number:</label>
+            <input type="text" name="contact_number" id="contactNumber" readonly> <br>
+
+            <label for="address">Address:</label>
+            <input type="text" name="address" id="address" readonly> <br>
+        </form>
+    </div>
+
+    <script src="/userProfile_script.js"> </script>
+</body>
+</html>
